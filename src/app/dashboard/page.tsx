@@ -2,8 +2,7 @@
 import React from 'react';
 import Sidenav from '@/components/sidebar';
 import { StatsCards } from '@/components/StatsCards';
-import { SchedulePickup } from '@/app/recycle/page';
-import { RecentActivity } from '@/components/RecentActivity';
+import {RecentActivity} from '@/components/RecentActivity';
 
 const Dashboard = () => {
   // Mock user data

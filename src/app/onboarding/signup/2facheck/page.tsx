@@ -55,7 +55,7 @@ const OTPVerification = () => {
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">Verify Your Phone</h2>
           <p className="mt-2 text-gray-600">
-            We've sent a 6-digit code to your phone number
+            We&apos;ve sent a 6-digit code to your phone number
           </p>
         </div>
 

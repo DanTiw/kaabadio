@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Clipboard, BarChart, Settings, ShoppingCart, LogIn, Menu, X, CookingPot, Package2 } from 'lucide-react';
+import { Home, Clipboard, Settings, Menu, X} from 'lucide-react';
 // import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
-import Image from 'next/image';
+
 const navItems = [
   { name: 'Home', href: '/dashboard', icon: Home },
   { name: 'Recycle', href: '/recycle', icon: Clipboard },
