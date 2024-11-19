@@ -114,17 +114,7 @@ export const RecentActivity = ({ isLoading = false, error = null }) => {
     }
   ];
 
-  if (error) {
-    return (
-      <Card className="w-full">
-        <CardContent className="p-6">
-          <div className="text-red-600 text-center">
-            Error loading recent activity: {error.message}
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  
 
   return (
     <div className="space-y-6">
