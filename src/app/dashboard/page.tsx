@@ -19,8 +19,8 @@ const Dashboard = () => {
       
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
-        <div className="container mx-auto p-6">
-          <div className="grid gap-6">
+        <div className="container mx-auto p-6 ">
+          <div className="grid gap-6 " >
             <StatsCards userData={userData} />
             
             <RecentActivity />

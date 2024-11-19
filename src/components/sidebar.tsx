@@ -2,159 +2,87 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Clipboard, UserRoundPen, Menu, X, HeartHandshake } from 'lucide-react';
-
+import { Home, Clipboard, Settings, Menu, X, HeartHandshake, UserRoundPen} from 'lucide-react';
+// import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
   { name: 'Recycle', href: '/recycle', icon: Clipboard },
   { name: 'Profile', href: '/profile', icon: UserRoundPen },
-  { name: 'Donate', href: '/donate', icon: HeartHandshake }
+  { name: 'Donate', href: '/donate', icon: HeartHandshake },
 ];
 
-const SideNav = () => {
+const SideNav: React.FC = () => {
   const pathname = usePathname();
+// const { isSignedIn } = useUser();
   const [isOpen, setIsOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        className="lg:hidden fixed top-4 left-4 z-50 bg-cream-100 rounded-md"
-        onClick={toggleMenu}
-        style={{ padding: '8px' }}
-      >
-        {isOpen ? (
-          <X className="w-6 h-6" style={{ color: '#800020' }} />
-        ) : (
-          <Menu className="w-6 h-6" style={{ color: '#800020' }} />
-        )}
-      </button>
-
-      {/* Mobile Overlay */}
+       <div className="fixed top-0 left-0 right-0 h-16 bg-white z-30 lg:hidden flex items-center px-4 border-b">
+        <button 
+          onClick={toggleMenu} 
+          className="p-2 bg-gray-100 rounded-md"
+        > 
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+        <span className="ml-4 text-xl font-bold">PantryPal</span>
+      </div>
+      {/* Overlay for mobile */}
       {isOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-40"
-          onClick={() => setIsOpen(false)}
-          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-        />
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-15 lg:hidden"
+          onClick={toggleMenu}
+        ></div>
       )}
 
       {/* Sidebar */}
-      <aside
-        style={{
-          backgroundColor: '#000000',
-          width: isHovered ? '256px' : '80px',
-          transform: `translateX(${isOpen || window.innerWidth >= 1024 ? '0' : '-100%'})`,
-          transition: 'all 0.3s ease-in-out',
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          height: '100%',
-          zIndex: 50,
-          '@media (minWidth: 1024px)': {
-            transform: 'translateX(0)',
-          }
-        }}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Logo Container */}
-        <div style={{ 
-          padding: '16px',
-          borderBottom: '1px solid rgba(255, 253, 245, 0.1)',
-          display: 'flex',
-          justifyContent: isHovered ? 'flex-start' : 'center',
-          alignItems: 'center'
-        }}>
-          {isHovered ? (
-            <h1 style={{ 
-              color: '#FFFDF5',
-              fontSize: '24px',
-              fontWeight: 'bold'
-            }}>
-              Kabaad.io
-            </h1>
-          ) : (
-            <img
-              src="/logo.png"
-              alt="Kabaad.io"
-              style={{
-                height: '32px',
-                width: 'auto'
-              }}
-            />
-          )}
+      <nav className={`
+        fixed top-0 left-0 h-full w-64 bg-gray-100 p-4 flex flex-col
+        transform transition-transform duration-300 ease-in-out z-20
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:translate-x-0 lg:static lg:h-screen
+      `}>
+        <div className="text-xl font-bold mb-8 flex items-center">
+          <Link href='/dashboard'>Kaabad.IO</Link>
         </div>
+        <ul className="flex-grow">
+          {navItems.map((item) => (
+            <li key={item.name} className="mb-4">
+              <Link href={item.href} onClick={() => setIsOpen(false)}>
+                <div
+                  className={`flex items-center p-2 rounded-md ${
+                    pathname === item.href
+                      ? 'bg-black text-white scale-105 transition duration-300'
+                      : 'hover:bg-gray-200'
+                  }`}
+                >
+                  <item.icon className="mr-2" size={20} />
+                  {item.name}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
-        {/* Navigation Items */}
-        <nav style={{ marginTop: '32px' }}>
-          <ul style={{ padding: '0 8px' }}>
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              const ItemIcon = item.icon;
-
-              return (
-                <li key={item.href} style={{ marginBottom: '8px' }}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      padding: '12px 16px',
-                      borderRadius: '8px',
-                      backgroundColor: isActive ? '#FFFDF5' : 'transparent',
-                      color: isActive ? '#800020' : '#FFFDF5',
-                      transition: 'all 0.2s ease-in-out',
-                      fontWeight: 'bold',
-                      textDecoration: 'none'
-                    }}
-                    onMouseOver={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = 'rgba(255, 253, 245, 0.9)';
-                        e.currentTarget.style.color = '#800020';
-                      }
-                    }}
-                    onMouseOut={(e) => {
-                      if (!isActive) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = '#FFFDF5';
-                      }
-                    }}
-                  >
-                    <ItemIcon style={{ 
-                      width: '24px',
-                      height: '24px'
-                    }} />
-                    <span style={{
-                      marginLeft: '16px',
-                      opacity: isHovered ? 1 : 0,
-                      width: isHovered ? 'auto' : 0,
-                      overflow: 'hidden',
-                      transition: 'opacity 0.3s ease-in-out',
-                      whiteSpace: 'nowrap'
-                    }}>
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Add media query styles */}
-      <style jsx global>{`
-        @media (minWidth: 1024px) {
-          aside {
-            transform: translateX(0) !important;
-          }
-        }
-      `}</style>
+        <div className="mt-auto">
+          {/* {isSignedIn ? (
+            <div className="flex items-center p-2 rounded-md hover:bg-gray-200">
+              <UserButton afterSignOutUrl="/" />
+              <span className="ml-2">Manage Account</span>
+            </div>
+          ) : (
+            <SignInButton mode="modal">
+              <button className="flex items-center w-full p-2 rounded-md hover:bg-gray-200">
+                <LogIn className="mr-2" size={20} />
+                <span>Sign In</span>
+              </button>
+            </SignInButton> 
+          )}
+            */}
+        </div>
+      </nav>
     </>
   );
 };
