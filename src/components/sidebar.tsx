@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Clipboard, Settings, Menu, X, HeartHandshake, UserRoundPen} from 'lucide-react';
+import { Home, Clipboard,  Menu, X, HeartHandshake, UserRoundPen} from 'lucide-react';
 // import { UserButton, SignInButton, useUser } from "@clerk/nextjs";
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
