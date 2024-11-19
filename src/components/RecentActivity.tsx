@@ -75,7 +75,7 @@ const ActivityItem = ({ type, amount, reward, rewardType, timestamp, icon: Icon,
   );
 };
 
-export const RecentActivity = ({ isLoading = false, error = null }) => {
+export const RecentActivity = ({ isLoading = false}) => {
   const paperWasteData = [
     { date: 'Week 1', waste: 45, cash: 900 },
     { date: 'Week 2', waste: 38, cash: 760 },
