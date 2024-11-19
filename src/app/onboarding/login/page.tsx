@@ -5,14 +5,24 @@ import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [otp, setOtp] = useState('')
+  const [isOtpSent, setIsOtpSent] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSendOtp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Submitted')
+    // Here you would typically make an API call to send OTP
+    console.log('Sending OTP to:', phoneNumber)
+    setIsOtpSent(true)
+  }
+
+  const handleVerifyOtp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    // Here you would typically verify the OTP
+    console.log('Verifying OTP:', otp)
     router.push('/dashboard')
   }
+
   const handleGoogleLogin = () => {
     console.log('Google Login')
     router.push('/dashboard')
@@ -22,7 +32,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
         <div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="mt-2 text-center text-3xl font-extrabold bg-black bg-clip-text text-transparent">
             Welcome back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -30,90 +40,100 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md space-y-5">
-            <div className="group">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 
-                  placeholder-gray-400 text-gray-900 rounded-lg transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-                  hover:border-indigo-300 group-hover:shadow-md
-                  bg-white/50 backdrop-blur-sm"
-                placeholder="Enter your email"
-              />
+        {!isOtpSent ? (
+          <form className="mt-8 space-y-6" onSubmit={handleSendOtp}>
+            <div className="rounded-md space-y-5">
+              <div className="group">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                  Mobile Number
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="appearance-none relative block w-full px-4 py-3 border border-gray-300 
+                    placeholder-gray-400 text-gray-900 rounded-lg transition-all duration-300
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                    hover:border-indigo-300 group-hover:shadow-md
+                    bg-white/50 backdrop-blur-sm"
+                  placeholder="Enter your mobile number"
+                />
+              </div>
             </div>
 
-            <div className="group">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none relative block w-full px-4 py-3 border border-gray-300 
-                  placeholder-gray-400 text-gray-900 rounded-lg transition-all duration-300
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
-                  hover:border-indigo-300 group-hover:shadow-md
-                  bg-white/50 backdrop-blur-sm"
-                placeholder="Enter your password"
-              />
+            <div>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-3 px-4 
+                  border border-transparent text-sm font-semibold rounded-lg text-white
+                  bg-black hover:from-indigo-700 
+                  hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                  focus:ring-indigo-500 transition-all duration-300 hover:shadow-lg"
+              >
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                  <svg className="h-5 w-5 text-white/70 group-hover:text-white/90 transition-colors duration-300" 
+                       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                  </svg>
+                </span>
+                Send OTP
+              </button>
             </div>
-          </div>
+          </form>
+        ) : (
+          <form className="mt-8 space-y-6" onSubmit={handleVerifyOtp}>
+            <div className="rounded-md space-y-5">
+              <div className="group">
+                <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-1">
+                  Enter OTP
+                </label>
+                <input
+                  id="otp"
+                  name="otp"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="\d*"
+                  maxLength={6}
+                  required
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="appearance-none relative block w-full px-4 py-3 border border-gray-300 
+                    placeholder-gray-400 text-gray-900 rounded-lg transition-all duration-300
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+                    hover:border-indigo-300 group-hover:shadow-md
+                    bg-white/50 backdrop-blur-sm"
+                  placeholder="Enter 6-digit OTP"
+                />
+              </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 cursor-pointer">
-                Remember me
-              </label>
+              <div className="text-sm text-right">
+                <button
+                  type="button"
+                  onClick={() => setIsOtpSent(false)}
+                  className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300"
+                >
+                  Change number?
+                </button>
+              </div>
             </div>
 
-            <div className="text-sm">
-              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">
-                Forgot your password?
-              </a>
+            <div>
+              <button
+                type="submit"
+                className="group relative w-full flex justify-center py-3 px-4 
+                  border border-transparent text-sm font-semibold rounded-lg text-white
+                  bg-black hover:from-indigo-700 
+                  hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                  focus:ring-indigo-500 transition-all duration-300 hover:shadow-lg"
+              >
+                Verify & Sign in
+              </button>
             </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 
-                border border-transparent text-sm font-semibold rounded-lg text-white
-                bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 
-                hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 
-                focus:ring-indigo-500 transition-all duration-300 hover:shadow-lg"
-            >
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg className="h-5 w-5 text-white/70 group-hover:text-white/90 transition-colors duration-300" 
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" 
-                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" 
-                        clipRule="evenodd" />
-                </svg>
-              </span>
-              Sign in
-            </button>
-          </div>
-        </form>
+          </form>
+        )}
 
         <div className="mt-6">
           <div className="relative">
