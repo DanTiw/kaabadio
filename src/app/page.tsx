@@ -7,8 +7,15 @@ import Image from 'next/image';
 
 const TextGenerateEffect = ({ words, className = "" }: { words: string, className?: string }) => {
   const [text, setText] = React.useState("");
+  const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (!isMounted) return;
+
     const generateText = () => {
       let currentIndex = 0;
       const intervalId = setInterval(() => {
@@ -24,7 +31,9 @@ const TextGenerateEffect = ({ words, className = "" }: { words: string, classNam
     };
 
     generateText();
-  }, [words]);
+  }, [words, isMounted]);
+
+  if (!isMounted) return null;
 
   return (
     <div className={`text-pretty text-xl font-bold tracking-tighter sm:text-5xl md:text-4xl text-orange-500 ${className}`}>
@@ -55,21 +64,19 @@ const LandingPage = () => {
   const slogan = "Turning your trash into treasure, one click at a time";
 
   return (
-    <section className="bg-sky-50 text-black min-h-screen w-full overflow-hidden">
+    <section className="bg-sky-50 text-black min-h-screen w-full overflow-hidden relative">
       <div className="absolute top-4 right-4 z-10">
         <Image 
           src="/logo.png" 
           alt="Kabaad.io Logo" 
           width={130} 
           height={100} 
-          className="animate-fade-in"
+          className="opacity-0 animate-fade-in"
         />
       </div>
 
       <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
-        {/* Hero Section */}
         <div className="flex min-h-[calc(100vh-4rem)] flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
-          {/* Hero Content */}
           <div className="flex flex-1 flex-col items-center space-y-8 text-center lg:items-start lg:text-left">
             <div className="space-y-6 max-w-[640px]">
               <h1 className="text-pretty text-4xl font-bold tracking-tighter sm:text-3xl md:text-6xl text-black">
@@ -78,7 +85,7 @@ const LandingPage = () => {
               
               <TextGenerateEffect words={slogan} />
 
-              <p className="text-base text-black/70 sm:text-lg md:text-xl animate-fade-in-slow">
+              <p className="text-base text-black/70 sm:text-lg md:text-xl opacity-0 animate-fade-in-slow">
                 Join us to transform your paper and recyclable waste into something more rewarding.
               </p>
             </div>
@@ -103,7 +110,7 @@ const LandingPage = () => {
               ].map((stat, index) => (
                 <div 
                   key={index} 
-                  className={`text-center lg:text-left ${stat.colSpan ? 'col-span-2 md:col-span-1' : ''} animate-slide-in`}
+                  className={`text-center lg:text-left opacity-0 animate-slide-in ${stat.colSpan ? 'col-span-2 md:col-span-1' : ''}`}
                 >
                   <div className="text-2xl font-bold text-orange-500">{stat.value}</div>
                   <div className="text-sm text-black/70">{stat.label}</div>
@@ -143,11 +150,11 @@ const LandingPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`absolute w-[38%] aspect-[4/3] rounded-xl border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm transform transition-all hover:scale-105 p-4 flex flex-col justify-center ${
+                className={`absolute w-[38%] aspect-[4/3] rounded-xl border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm transform transition-all hover:scale-105 p-4 flex flex-col justify-center opacity-0 animate-fade-in ${
                   index === 0 ? 'left-[8%] top-[10%]' :
                   index === 1 ? 'right-[12%] top-[20%]' :
                   'bottom-[24%] right-[24%]'
-                } animate-fade-in`}
+                }`}
               >
                 <feature.icon className="size-8 mb-2 text-sky-600" />
                 <h3 className="font-semibold mb-1 text-black">{feature.title}</h3>
@@ -158,7 +165,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes fade-in {
           from { opacity: 0; transform: translateY(-20px); }
           to { opacity: 1; transform: translateY(0); }
@@ -167,27 +174,14 @@ const LandingPage = () => {
           from { opacity: 0; transform: translateX(-20px); }
           to { opacity: 1; transform: translateX(0); }
         }
-        @keyframes slogan-reveal {
-          from { 
-            clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
-          }
-          to { 
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-          }
+        .animate-fade-in { 
+          animation: fade-in 0.8s ease-out forwards;
         }
-        @keyframes underline {
-          from { width: 0; }
-          to { width: 100%; }
+        .animate-fade-in-slow { 
+          animation: fade-in 1.2s ease-out forwards;
         }
-        .animate-fade-in { animation: fade-in 0.8s ease-out; }
-        .animate-fade-in-slow { animation: fade-in 1.2s ease-out; }
-        .animate-slide-in { animation: slide-in 0.8s ease-out; }
-        .animate-slogan-reveal { 
-          animation: slogan-reveal 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-          display: inline-block;
-        }
-        .animate-underline {
-          animation: underline 0.5s ease-out forwards;
+        .animate-slide-in { 
+          animation: slide-in 0.8s ease-out forwards;
         }
       `}</style>
     </section>
