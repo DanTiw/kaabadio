@@ -36,7 +36,7 @@ const TextGenerateEffect = ({ words, className = "" }: { words: string, classNam
   if (!isMounted) return null;
 
   return (
-    <div className={`text-pretty text-xl font-bold tracking-tighter sm:text-5xl md:text-4xl text-orange-500 ${className}`}>
+    <div className={`text-pretty text-xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-orange-500 ${className}`}>
       <i>{text}</i>
     </div>
   );
@@ -65,7 +65,7 @@ const LandingPage = () => {
 
   return (
     <section className="bg-sky-50 text-black min-h-screen w-full overflow-hidden relative">
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-4 right-4 z-10 hidden sm:block">
         <Image 
           src="/logo.png" 
           alt="Kabaad.io Logo" 
@@ -76,81 +76,56 @@ const LandingPage = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
-        <div className="flex min-h-[calc(100vh-4rem)] flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
-          <div className="flex flex-1 flex-col items-center space-y-8 text-center lg:items-start lg:text-left">
-            <div className="space-y-6 max-w-[640px]">
-              <h1 className="text-pretty text-4xl font-bold tracking-tighter sm:text-3xl md:text-6xl text-black">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
+            <div className="max-w-md w-full">
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-black mb-4">
                 kabaad.io
               </h1>
               
-              <TextGenerateEffect words={slogan} />
+              <TextGenerateEffect words={slogan} className="mb-4" />
 
-              <p className="text-base text-black/70 sm:text-lg md:text-xl opacity-0 animate-fade-in-slow">
+              <p className="text-base md:text-lg text-black/70 opacity-0 animate-fade-in-slow mb-6">
                 Join us to transform your paper and recyclable waste into something more rewarding.
               </p>
-            </div>
-            
-            <div className="flex w-full flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-              <Button 
-                size="lg"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-sky-50 transition-transform hover:scale-105"
-              >
-                <Link href="/onboarding" className="flex items-center gap-2">
-                  Get Started
-                  <ArrowRight className="size-4" />
-                </Link>
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-[640px] mt-8 pt-8 border-t border-black/20">
-              {[
-                {value: "1000+", label: "Active Users"},
-                {value: "50+", label: "Partner Facilities"},
-                {value: "2000kg+", label: "Waste Recycled", colSpan: true}
-              ].map((stat, index) => (
-                <div 
-                  key={index} 
-                  className={`text-center lg:text-left opacity-0 animate-slide-in ${stat.colSpan ? 'col-span-2 md:col-span-1' : ''}`}
+              
+              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8">
+                <Button 
+                  size="lg"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-sky-50 transition-transform hover:scale-105"
                 >
-                  <div className="text-2xl font-bold text-orange-500">{stat.value}</div>
-                  <div className="text-sm text-black/70">{stat.label}</div>
-                </div>
-              ))}
+                  <Link href="/onboarding" className="flex items-center gap-2">
+                    Get Started
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full border-t border-black/20 pt-6">
+                {[
+                  {value: "1000+", label: "Active Users"},
+                  {value: "50+", label: "Partner Facilities"},
+                  {value: "2000kg+", label: "Waste Recycled", colSpan: true}
+                ].map((stat, index) => (
+                  <div 
+                    key={index} 
+                    className={`text-center lg:text-left opacity-0 animate-slide-in ${stat.colSpan ? 'col-span-2 md:col-span-1' : ''}`}
+                  >
+                    <div className="text-2xl font-bold text-orange-500">{stat.value}</div>
+                    <div className="text-sm text-black/70">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           
-          <div className="relative flex-1 aspect-square max-w-[640px] mx-auto lg:max-w-none">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                version="1.1"
-                viewBox="0 0 800 800"
-                className="w-full h-full text-black/10"
-              >
-                {Array.from(Array(720).keys()).map((dot, index, array) => {
-                  const angle = 0.2 * index;
-                  const scalar = 40 + index * (360 / array.length);
-                  const x = Math.round(Math.cos(angle) * scalar);
-                  const y = Math.round(Math.sin(angle) * scalar);
-                  
-                  return (
-                    <circle
-                      key={index}
-                      r={(3 * index) / array.length}
-                      cx={400 + x}
-                      cy={400 + y}
-                      opacity={1 - Math.sin(angle)}
-                      className="animate-pulse"
-                    />
-                  );
-                })}
-              </svg>
-            </div>
+          <div className="w-full lg:w-1/2 relative max-w-md lg:max-w-xl mx-auto">
+
 
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`absolute w-[38%] aspect-[4/3] rounded-xl border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm transform transition-all hover:scale-105 p-4 flex flex-col justify-center opacity-0 animate-fade-in ${
+                className={`absolute w-[38%] aspect-[4/3] rounded-xl border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm transform transition-all hover:scale-105 p-4 flex flex-col justify-center opacity-0 animate-fade-in hidden lg:flex ${
                   index === 0 ? 'left-[8%] top-[10%]' :
                   index === 1 ? 'right-[12%] top-[20%]' :
                   'bottom-[24%] right-[24%]'
