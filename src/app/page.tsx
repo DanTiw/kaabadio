@@ -36,7 +36,7 @@ const TextGenerateEffect = ({ words, className = "" }: { words: string, classNam
   if (!isMounted) return null;
 
   return (
-    <div className={`text-pretty text-xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-orange-500 ${className}`}>
+    <div className={`text-pretty text-xl font-bold tracking-tighter sm:text-3xl md:text-4xl text-blue-600 ${className}`}>
       <i>{text}</i>
     </div>
   );
@@ -64,7 +64,7 @@ const LandingPage = () => {
   const slogan = "Turning your trash into treasure, one click at a time";
 
   return (
-    <section className="bg-sky-50 text-black min-h-screen w-full overflow-hidden relative">
+    <section className="bg-blue-50 text-black min-h-screen w-full overflow-hidden relative">
       <div className="absolute top-4 right-4 z-10 hidden sm:block">
         <Image 
           src="/logo.png" 
@@ -79,7 +79,7 @@ const LandingPage = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
           <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6">
             <div className="max-w-md w-full">
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-black mb-4">
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-blue-900 mb-4">
                 kabaad.io
               </h1>
               
@@ -92,7 +92,7 @@ const LandingPage = () => {
               <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-8">
                 <Button 
                   size="lg"
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-sky-50 transition-transform hover:scale-105"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white transition-transform hover:scale-105"
                 >
                   <Link href="/onboarding" className="flex items-center gap-2">
                     Get Started
@@ -111,7 +111,7 @@ const LandingPage = () => {
                     key={index} 
                     className={`text-center lg:text-left opacity-0 animate-slide-in ${stat.colSpan ? 'col-span-2 md:col-span-1' : ''}`}
                   >
-                    <div className="text-2xl font-bold text-orange-500">{stat.value}</div>
+                    <div className="text-2xl font-bold text-blue-600">{stat.value}</div>
                     <div className="text-sm text-black/70">{stat.label}</div>
                   </div>
                 ))}
@@ -120,31 +120,29 @@ const LandingPage = () => {
           </div>
           
           <div className="w-full lg:w-1/2 relative max-w-md lg:max-w-xl mx-auto">
-
-
-          <div className="relative w-full min-h-[600px] p-8">
-      {features.map((feature, index) => (
-        <div
-          key={index}
-          className={`absolute w-full md:w-[85%] lg:w-[75%] aspect-[4/3] rounded-xl 
-            border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm 
-            transform transition-all duration-300 hover:scale-105 hover:z-10
-            p-6 flex flex-col justify-center
-            ${index === 0 ? 'top-0 left-0 z-[3]' : 
-              index === 1 ? 'top-12 left-8 z-[2]' : 
-              'top-24 left-16 z-[1]'}
-            hover:shadow-xl hover:bg-sky-50/95`}
-        >
-          <div className="flex items-start gap-4">
-            <feature.icon className="size-8 shrink-0 text-sky-600" />
-            <div>
-              <h3 className="font-semibold mb-2 text-lg text-black">{feature.title}</h3>
-              <p className="text-sm text-black/70">{feature.description}</p>
+            <div className="relative w-full min-h-[600px] p-8">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className={`absolute w-full md:w-[85%] lg:w-[75%] aspect-[4/3] rounded-xl 
+                    border border-blue-600/30 bg-white/90 shadow-lg backdrop-blur-sm 
+                    transform transition-all duration-300 hover:scale-105 hover:z-10
+                    p-6 flex flex-col justify-center
+                    ${index === 0 ? 'top-0 left-0 z-[3]' : 
+                      index === 1 ? 'top-12 left-8 z-[2]' : 
+                      'top-24 left-16 z-[1]'}
+                    hover:shadow-xl hover:bg-white/95`}
+                >
+                  <div className="flex items-start gap-4">
+                    <feature.icon className="size-8 shrink-0 text-blue-600" />
+                    <div>
+                      <h3 className="font-semibold mb-2 text-lg text-blue-900">{feature.title}</h3>
+                      <p className="text-sm text-black/70">{feature.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        </div>
-      ))}
-    </div>
           </div>
         </div>
       </div>
