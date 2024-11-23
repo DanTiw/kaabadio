@@ -81,7 +81,10 @@ const Recycle = () => {
   return (
     <div className="flex max-h-screen bg-blue-50">
       <Sidenav />
-      <main className="flex-1 mt-16 lg:mt-0 p-4">
+      <main className=" flex-1
+        lg:ml-64
+        mt-16 lg:mt-0
+        transition-all duration-300 ease-in-out">
         <div className="flex-1 overflow-auto p-6">
           <div className="container mx-auto">
             {/* Schedule Pickup Card */}
