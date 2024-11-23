@@ -122,20 +122,29 @@ const LandingPage = () => {
           <div className="w-full lg:w-1/2 relative max-w-md lg:max-w-xl mx-auto">
 
 
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className={`absolute w-[38%] aspect-[4/3] rounded-xl border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm transform transition-all hover:scale-105 p-4 flex flex-col justify-center opacity-0 animate-fade-in hidden lg:flex ${
-                  index === 0 ? 'left-[8%] top-[10%]' :
-                  index === 1 ? 'right-[12%] top-[20%]' :
-                  'bottom-[24%] right-[24%]'
-                }`}
-              >
-                <feature.icon className="size-8 mb-2 text-sky-600" />
-                <h3 className="font-semibold mb-1 text-black">{feature.title}</h3>
-                <p className="text-sm text-black/70">{feature.description}</p>
-              </div>
-            ))}
+          <div className="relative w-full min-h-[600px] p-8">
+      {features.map((feature, index) => (
+        <div
+          key={index}
+          className={`absolute w-full md:w-[85%] lg:w-[75%] aspect-[4/3] rounded-xl 
+            border border-sky-600/30 bg-sky-50/90 shadow-lg backdrop-blur-sm 
+            transform transition-all duration-300 hover:scale-105 hover:z-10
+            p-6 flex flex-col justify-center
+            ${index === 0 ? 'top-0 left-0 z-[3]' : 
+              index === 1 ? 'top-12 left-8 z-[2]' : 
+              'top-24 left-16 z-[1]'}
+            hover:shadow-xl hover:bg-sky-50/95`}
+        >
+          <div className="flex items-start gap-4">
+            <feature.icon className="size-8 shrink-0 text-sky-600" />
+            <div>
+              <h3 className="font-semibold mb-2 text-lg text-black">{feature.title}</h3>
+              <p className="text-sm text-black/70">{feature.description}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
           </div>
         </div>
       </div>

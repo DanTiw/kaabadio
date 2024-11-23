@@ -79,7 +79,9 @@ const Recycle = () => {
   return (
     <div className="flex h-screen bg-sky-50">
       <Sidenav />
-      
+      <main className="
+      flex-1 mt-16 lg:mt-0 p-4
+    ">
       <div className="flex-1 overflow-auto p-6">
         <div className="container mx-auto">
           {/* Rates Card */}
@@ -349,6 +351,7 @@ const Recycle = () => {
           </Card>
         </div>
       </div>
+      </main>
     </div>
   );
 };

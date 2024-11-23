@@ -19,7 +19,9 @@ const ProfilePage = () => {
   return (
     <div className="flex h-screen bg-sky-100">
       <Sidenav />
-      
+      <main className="
+      flex-1 mt-16 lg:mt-0 p-4
+    ">
       <div className="flex-1 overflow-auto p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-lg border-0 rounded-2xl overflow-hidden">
@@ -96,6 +98,7 @@ const ProfilePage = () => {
           </Card>
         </div>
       </div>
+      </main>
     </div>
   );
 };
