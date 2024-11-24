@@ -16,50 +16,50 @@ interface StatsCardsProps {
 export const StatsCards = ({ userData }: StatsCardsProps) => {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Total Points</CardTitle>
-          <Award className="size-4 text-muted-foreground" />
+      <Card className="bg-white border-blue-600">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-blue-200">
+          <CardTitle className="text-sm font-medium text-black">Total Points</CardTitle>
+          <Award className="size-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{userData.points}</div>
+          <div className="text-2xl font-bold text-black">{userData.points}</div>
           <Progress 
             value={(userData.points/userData.nextReward) * 100} 
-            className="mt-2"
+            className="mt-2 bg-blue-100"
           />
-          <p className="text-xs text-muted-foreground mt-2">
+          <p className="text-xs text-gray-600 mt-2">
             {userData.nextReward - userData.points} points until next reward
           </p>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Paper Recycled</CardTitle>
-          <Package2 className="size-4 text-muted-foreground" />
+      <Card className="bg-white border-blue-600">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-blue-200">
+          <CardTitle className="text-sm font-medium text-black">Paper Recycled</CardTitle>
+          <Package2 className="size-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{userData.paperRecycled}kg</div>
+          <div className="text-2xl font-bold text-black">{userData.paperRecycled}kg</div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Facility Waste</CardTitle>
-          <Recycle className="size-4 text-muted-foreground" />
+      <Card className="bg-white border-blue-600">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-blue-200">
+          <CardTitle className="text-sm font-medium text-black">Facility Waste</CardTitle>
+          <Recycle className="size-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{userData.facilityRecycled}kg</div>
+          <div className="text-2xl font-bold text-black">{userData.facilityRecycled}kg</div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Next Pickup</CardTitle>
-          <Timer className="size-4 text-muted-foreground" />
+      <Card className="bg-white border-blue-600">
+        <CardHeader className="flex flex-row items-center justify-between pb-2 border-b border-blue-200">
+          <CardTitle className="text-sm font-medium text-black">Next Pickup</CardTitle>
+          <Timer className="size-4 text-blue-600" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">-</div>
+          <div className="text-2xl font-bold text-black">-</div>
         </CardContent>
       </Card>
     </div>
