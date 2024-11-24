@@ -9,20 +9,39 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('')
   const [isOtpSent, setIsOtpSent] = useState(false)
 
-  const handleSendOtp = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // Here you would typically make an API call to send OTP
-    console.log('Sending OTP to:', phoneNumber)
-    setIsOtpSent(true)
-  }
-
-  const handleVerifyOtp = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // Here you would typically verify the OTP
-    console.log('Verifying OTP:', otp)
-    router.push('/dashboard')
-  }
-
+  const handleSendOtp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        setIsOtpSent(true);
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  };
+  
+  const handleVerifyOtp = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber, otp }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error verifying OTP:', error);
+    }
+  };
   const handleGoogleLogin = () => {
     console.log('Google Login')
     router.push('/dashboard')
