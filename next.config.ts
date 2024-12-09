@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  env: {
+    GROQ_API_KEY: process.env.GROQ_API_KEY,
+  },
 };
 
 export default nextConfig;
