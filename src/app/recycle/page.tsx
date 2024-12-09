@@ -7,7 +7,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { MapPin, IndianRupee, Leaf, Factory, Truck, Clipboard } from 'lucide-react';
 import RatesModal from '@/components/RatesModal';
-import RecycleStepsModal from '@/components/RecycleSteps';
 
 // Pricing and Points Configuration
 const PAPER_PRICING = {
@@ -85,12 +84,11 @@ const Recycle = () => {
       <main className="flex-1 lg:ml-64 mt-16 lg:mt-0 transition-all duration-300 ease-in-out bg-gradient-to-br from-[#e6f7f5] to-white overflow-auto">
         <div className="container mx-auto px-4 py-8 max-w-3xl">
           <Card className="bg-gradient-to-br from-white to-[#e6f7f5] shadow-lg border-[#4FD1C5]/20">
-            <CardHeader className="bg-[#4FD1C5] text-white rounded-t-lg relative">
+            <CardHeader className="bg-[#4FD1C5] text-white rounded-t-lg">
               <CardTitle className="text-2xl flex items-center gap-2">
                 <Clipboard className="h-6 w-6" />
                 Schedule Pickup
               </CardTitle>
-              <RecycleStepsModal />
             </CardHeader>
             <CardContent className="p-6">
               {!pickupScheduled ? (
