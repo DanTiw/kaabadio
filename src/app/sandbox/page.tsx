@@ -1,50 +1,48 @@
 'use client'
 
 import React, { useState } from 'react';
+import DOMPurify from 'dompurify';
 import Sidenav from '@/components/sidebar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Recycle, Lightbulb } from 'lucide-react';
 
-// Simple database of waste items and their potential reuses
-const wasteReuses: Record<string, string[]> = {
-  'plastic bottle': [
-    'Make a self-watering planter',
-    'Create a bird feeder',
-    'Use as a storage container for small items',
-  ],
-  'newspaper': [
-    'Make paper mache crafts',
-    'Use as gift wrapping paper',
-    'Create seed starter pots for gardening',
-  ],
-  'glass jar': [
-    'Use as a vase for flowers',
-    'Create a candle holder',
-    'Store homemade jams or preserves',
-  ],
-  'cardboard box': [
-    'Make a cat playhouse',
-    'Create storage organizers',
-    'Use as a canvas for painting',
-  ],
-  'tin can': [
-    'Make a pencil holder',
-    'Create a rustic lantern',
-    'Use as a planter for small herbs',
-  ],
-};
-
 const SandboxPage = () => {
   const [wasteItem, setWasteItem] = useState('');
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const lowercaseItem = wasteItem.toLowerCase();
-    const reuses = wasteReuses[lowercaseItem] || [];
-    setSuggestions(reuses);
+    
+    // Reset previous state
+    setSuggestions('');
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/sandbox', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ material: wasteItem }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch suggestions');
+      }
+
+      const data = await response.json();
+      setSuggestions(data.html);
+    } catch (err) {
+      setError('Unable to fetch suggestions. Please try again.');
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,31 +72,34 @@ const SandboxPage = () => {
                       placeholder="e.g., plastic bottle, newspaper"
                       className="flex-grow border-[#4FD1C5] focus:ring-[#4FD1C5] focus:border-[#4FD1C5]"
                     />
-                    <Button type="submit" className="ml-2 bg-[#4FD1C5] hover:bg-[#3BA89F] text-white">
-                      Get Ideas
+                    <Button 
+                      type="submit" 
+                      disabled={isLoading}
+                      className="ml-2 bg-[#4FD1C5] hover:bg-[#3BA89F] text-white disabled:opacity-50"
+                    >
+                      {isLoading ? 'Loading...' : 'Get Ideas'}
                     </Button>
                   </div>
                 </div>
               </form>
 
-              {suggestions.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-lg font-semibold text-[#0d2834] mb-2 flex items-center">
-                    <Lightbulb className="mr-2 h-5 w-5 text-[#4FD1C5]" />
-                    Reuse Ideas:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-2">
-                    {suggestions.map((suggestion, index) => (
-                      <li key={index} className="text-[#1a3f4c]">{suggestion}</li>
-                    ))}
-                  </ul>
+              {isLoading && (
+                <div className="mt-6 text-[#1a3f4c] animate-pulse">
+                  Generating creative reuse ideas...
                 </div>
               )}
 
-              {suggestions.length === 0 && wasteItem && (
-                <p className="mt-4 text-[#1a3f4c]">
-                  No specific suggestions found for this item. Try to think creatively about how you might repurpose it!
-                </p>
+              {error && (
+                <p className="mt-4 text-red-500">{error}</p>
+              )}
+
+              {suggestions && (
+                <div 
+                  className="mt-6 prose prose-green items-center"
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(suggestions)
+                  }}
+                />
               )}
             </CardContent>
           </Card>
@@ -109,4 +110,3 @@ const SandboxPage = () => {
 };
 
 export default SandboxPage;
-
